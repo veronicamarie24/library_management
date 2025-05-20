@@ -12,5 +12,5 @@ export const customers = new Map<string, Customer>();
 // Key: checkout_id
 export const checkouts = new Map<string, Checkout>();
 
-// Key: isbn
+// Key: return_id
 export const returns = new Map<string, Return>();

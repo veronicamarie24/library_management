@@ -5,7 +5,7 @@ export function isCreateReturnBody(body: any): body is CreateReturnBody {
   return typeof body.isbn === "string" && typeof body.customer_id === "string";
 }
 
-export type CreateReturnResponse = Omit<Return, "return_date"> & {
+export type CreateReturnResponse = Omit<Return, "return_id" | "return_date"> & {
   return_date: string;
   message: string;
 };

@@ -28,7 +28,8 @@ export const createReturn = (
     const createdReturn = returnService.createReturn(isbn, customer_id);
 
     const returnResponse: CreateReturnResponse = {
-      ...createdReturn,
+      isbn: createdReturn.isbn,
+      customer_id: createdReturn.customer_id,
       return_date: formatDate(createdReturn.return_date),
       message: "Book returned successfully",
     };
