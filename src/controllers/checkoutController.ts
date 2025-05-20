@@ -6,10 +6,10 @@ import {
 } from "../types";
 import * as checkoutService from "../services/checkoutService";
 import {
-  invalidReqBodyMessage,
   NotFoundError,
   standardErrorMessage,
   ErrorResponse,
+  InvalidRequestBodyError,
 } from "../services/errors";
 import { formatDate } from "../util";
 
@@ -20,8 +20,7 @@ export const createCheckout = (
   try {
     const body = req.body;
     if (!isCreateCheckoutBody(body)) {
-      res.status(400).json({ errorMessage: invalidReqBodyMessage });
-      return;
+      throw new InvalidRequestBodyError();
     }
 
     const { isbn, customer_id, due_date } = body;
@@ -36,7 +35,9 @@ export const createCheckout = (
       due_date: formatDate(checkout.due_date),
     });
   } catch (err) {
-    if (err instanceof NotFoundError) {
+    if (err instanceof InvalidRequestBodyError) {
+      res.status(400).json({ errorMessage: err.message });
+    } else if (err instanceof NotFoundError) {
       res.status(404).json({ errorMessage: err.message });
     } else if (err instanceof Error) {
       res.status(422).json({ errorMessage: err.message });

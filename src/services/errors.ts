@@ -5,11 +5,23 @@ export type ErrorResponse = {
 };
 
 export const standardErrorMessage = "An error occurred.";
-export const invalidReqBodyMessage = "Invalid request body.";
-export const invalidReqParamsMessage = "Invalid request params.";
+
+export class InvalidRequestParamsError extends Error {
+  constructor() {
+    super("Invalid request params.");
+    this.name = "InvalidRequestParams";
+  }
+}
+
+export class InvalidRequestBodyError extends Error {
+  constructor() {
+    super("Invalid request body.");
+    this.name = "InvalidRequestBody";
+  }
+}
 
 export class NotFoundError extends Error {
-  constructor(message: string, object?: any) {
+  constructor(message: string) {
     super(message);
     this.name = "NotFoundError";
   }

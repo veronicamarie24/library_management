@@ -9,11 +9,11 @@ import {
   isGetCheckedOutBooksParams,
 } from "../types";
 import {
-  invalidReqBodyMessage,
-  invalidReqParamsMessage,
   NotFoundError,
   standardErrorMessage,
   ErrorResponse,
+  InvalidRequestParamsError,
+  InvalidRequestBodyError,
 } from "../services/errors";
 import { formatDate } from "../util";
 
@@ -24,15 +24,16 @@ export const getCustomerById = (
   try {
     const params = req.params;
     if (!isGetCheckedOutBooksParams(params)) {
-      res.status(400).json({ errorMessage: invalidReqParamsMessage });
-      return;
+      throw new InvalidRequestParamsError();
     }
 
     const { customer_id } = params;
     const customer = customerService.getCustomerById(customer_id);
     res.status(200).json(customer);
   } catch (err) {
-    if (err instanceof NotFoundError) {
+    if (err instanceof InvalidRequestParamsError) {
+      res.status(400).json({ errorMessage: err.message });
+    } else if (err instanceof NotFoundError) {
       res.status(404).json({
         errorMessage: err.message,
       });
@@ -48,15 +49,23 @@ export const createCustomer = (
   req: Request<{}, {}, Customer>,
   res: Response<Customer | ErrorResponse>
 ) => {
-  const body = req.body;
-  if (!isCustomer(body)) {
-    console.log(body);
-    res.status(400).json({ errorMessage: invalidReqBodyMessage });
-    return;
-  }
+  try {
+    const body = req.body;
+    if (!isCustomer(body)) {
+      throw new InvalidRequestBodyError();
+    }
 
-  const newCustomer = customerService.createCustomer(body);
-  res.status(201).json(newCustomer);
+    const newCustomer = customerService.createCustomer(body);
+    res.status(201).json(newCustomer);
+  } catch (err) {
+    if (err instanceof InvalidRequestBodyError) {
+      res.status(400).json({ errorMessage: err.message });
+    } else {
+      res.status(500).json({
+        errorMessage: standardErrorMessage,
+      });
+    }
+  }
 };
 
 export const getCheckedOutBooks = (
@@ -66,8 +75,7 @@ export const getCheckedOutBooks = (
   try {
     const params = req.params;
     if (!isGetCheckedOutBooksParams(params)) {
-      res.status(400).json({ errorMessage: invalidReqParamsMessage });
-      return;
+      throw new InvalidRequestParamsError();
     }
 
     const { customer_id } = params;
@@ -85,7 +93,9 @@ export const getCheckedOutBooks = (
     );
     res.status(200).json(response);
   } catch (err) {
-    if (err instanceof NotFoundError) {
+    if (err instanceof InvalidRequestParamsError) {
+      res.status(400).json({ errorMessage: err.message });
+    } else if (err instanceof NotFoundError) {
       res.status(404).json({ errorMessage: err.message });
     } else {
       res.status(500).json({ errorMessage: standardErrorMessage });
