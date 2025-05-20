@@ -1,10 +1,4 @@
-## Resources
-Books
-Customers
-Checkouts
-Returns
-
-## Assumptions
+## Assumptions and Tradeoffs
 - `returns` is a separate data store.
 Instead of adding a returned_at field to the `checkout` model, I created a separate store and model for `returns`.
 This is to allow for further metadata to be stored there and for better separation of concerns.
