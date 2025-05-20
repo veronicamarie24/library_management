@@ -9,12 +9,12 @@
 git clone https://github.com/veronicamarie24/library_management.git
 ```
 
-2. Install dependencies
+3. Install dependencies
 ```
 npm i
 ```
 
-3. Start the server
+4. Start the server
 ```
 npm run dev
 ```
