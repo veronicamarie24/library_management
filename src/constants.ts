@@ -1,0 +1,1 @@
+export const MAX_CHECKOUTS = 5;
