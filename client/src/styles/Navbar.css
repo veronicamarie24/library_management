@@ -1,0 +1,21 @@
+.nav-container {
+  width: 100%;
+  margin: 0;
+  height: auto;
+  justify-content: center;
+  display: flex;
+  gap: 8px;
+  padding: 16px 0;
+}
+
+.nav-container a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  transition: color 100ms linear;
+}
+
+.nav-container a:hover {
+  color: var(--primary-light-color);
+}
