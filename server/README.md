@@ -16,7 +16,7 @@ npm i
 
 4. Compile TS
 ```
-npx tsc
+npm run build
 ```
 
 5. Start the server
