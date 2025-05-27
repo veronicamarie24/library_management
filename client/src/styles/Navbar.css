@@ -4,18 +4,20 @@
   height: auto;
   justify-content: center;
   display: flex;
-  gap: 8px;
-  padding: 16px 0;
+  gap: 24px;
+  padding: 24px 0;
+  background-color: var(--secondary-background-color);
+  border-bottom: 1px solid var(--primary-color);
 }
 
-.nav-container a {
-  color: var(--primary-color);
+.nav-container a, a:visited {
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
-  transition: color 100ms linear;
+  transition: color 150ms linear;
+  color: var(--text-color);
 }
 
 .nav-container a:hover {
-  color: var(--primary-light-color);
+  color: color-mix(in srgb, var(--text-color) 60%, #fff);
 }
