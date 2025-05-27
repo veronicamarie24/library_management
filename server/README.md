@@ -19,7 +19,7 @@ npm i
 npx tsc
 ```
 
-4. Start the server
+5. Start the server
 ```
 npm run dev
 ```
