@@ -14,7 +14,12 @@ git clone https://github.com/veronicamarie24/library_management.git
 npm i
 ```
 
-4. Start the server
+4. Compile TS
+```
+npx tsc
+```
+
+5. Start the server
 ```
 npm run dev
 ```
