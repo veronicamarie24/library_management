@@ -8,12 +8,12 @@ import {
   isGetBookByIsbnParams,
 } from "../types";
 import {
-  NotFoundError,
   standardErrorMessage,
   ErrorResponse,
   InvalidRequestParamsError,
   InvalidRequestBodyError,
-} from "../services/errors";
+  AppError,
+} from "../types/errors";
 
 export const getBooks = (req: Request, res: Response<Book[]>) => {
   const allBooks = bookService.getAllBooks();
@@ -34,10 +34,8 @@ export const getBookByIsbn = (
     const book = bookService.getBookByIsbn(isbn);
     res.status(200).json(book);
   } catch (err) {
-    if (err instanceof InvalidRequestParamsError) {
-      res.status(400).json({ errorMessage: err.message });
-    } else if (err instanceof NotFoundError) {
-      res.status(404).json({ errorMessage: err.message });
+    if (err instanceof AppError) {
+      res.status(err.statusCode).json({ errorMessage: err.message });
     } else {
       res.status(500).json({ errorMessage: standardErrorMessage });
     }
@@ -58,8 +56,8 @@ export const createBook = (
     const book = bookService.createBook(isbn, title, author, copies);
     res.status(201).json(book);
   } catch (err) {
-    if (err instanceof InvalidRequestBodyError) {
-      res.status(400).json({ errorMessage: err.message });
+    if (err instanceof AppError) {
+      res.status(err.statusCode).json({ errorMessage: err.message });
     } else {
       res.status(500).json({ errorMessage: standardErrorMessage });
     }

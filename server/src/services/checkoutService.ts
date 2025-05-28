@@ -2,7 +2,7 @@ import { MAX_CHECKOUTS } from "../constants";
 import { checkouts } from "../data/stores";
 import { Checkout } from "../models/checkoutModel";
 import { getBookByIsbn, reduceCopies } from "./bookService";
-import { MaxCheckoutsError, NotFoundError } from "./errors";
+import { MaxCheckoutsError, NotFoundError } from "../types/errors";
 
 export const createCheckout = (
   customerId: string,
@@ -36,7 +36,9 @@ export const createCheckout = (
 
 export const deleteCheckout = (isbn: string, customerId: string) => {
   const checkoutsForCustomer = getCheckoutsForCustomer(customerId);
-  const checkout = checkoutsForCustomer.find((checkout) => checkout.isbn === isbn);
+  const checkout = checkoutsForCustomer.find(
+    (checkout) => checkout.isbn === isbn
+  );
   if (!checkout) {
     throw new NotFoundError("This book is not checked out by this customer.");
   }

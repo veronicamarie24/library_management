@@ -5,13 +5,13 @@ import {
   isCreateReturnBody,
 } from "../types/return";
 import * as returnService from "../services/returnService";
-import { formatDate } from "../util";
+import { formatDate } from "../util/formatters";
 import {
-  NotFoundError,
   standardErrorMessage,
   ErrorResponse,
   InvalidRequestBodyError,
-} from "../services/errors";
+  AppError,
+} from "../types/errors";
 
 export const createReturn = (
   req: Request<{}, {}, CreateReturnBody>,
@@ -35,14 +35,8 @@ export const createReturn = (
 
     res.status(200).json(returnResponse);
   } catch (err) {
-    if (err instanceof InvalidRequestBodyError) {
-      res.status(400).json({ errorMessage: err.message });
-    } else if (err instanceof NotFoundError) {
-      res.status(404).json({
-        errorMessage: err.message,
-      });
-    }
-    if (err instanceof InvalidRequestBodyError) {
+    if (err instanceof AppError) {
+      res.status(err.statusCode).json({ errorMessage: err.message });
     } else {
       res.status(500).json({ errorMessage: standardErrorMessage });
     }

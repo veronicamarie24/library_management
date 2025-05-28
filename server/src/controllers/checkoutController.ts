@@ -10,8 +10,9 @@ import {
   standardErrorMessage,
   ErrorResponse,
   InvalidRequestBodyError,
-} from "../services/errors";
-import { formatDate } from "../util";
+  AppError,
+} from "../types/errors";
+import { formatDate } from "../util/formatters";
 
 export const createCheckout = (
   req: Request<{}, {}, CreateCheckoutBody>,
@@ -35,12 +36,8 @@ export const createCheckout = (
       due_date: formatDate(checkout.due_date),
     });
   } catch (err) {
-    if (err instanceof InvalidRequestBodyError) {
-      res.status(400).json({ errorMessage: err.message });
-    } else if (err instanceof NotFoundError) {
-      res.status(404).json({ errorMessage: err.message });
-    } else if (err instanceof Error) {
-      res.status(422).json({ errorMessage: err.message });
+    if (err instanceof AppError) {
+      res.status(err.statusCode).json({ errorMessage: err.message });
     } else {
       res.status(500).json({ errorMessage: standardErrorMessage });
     }

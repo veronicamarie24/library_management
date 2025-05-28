@@ -1,6 +1,6 @@
 import { customers } from "../data/stores";
 import { Customer } from "../models/customerModel";
-import { NotFoundError } from "./errors";
+import { NotFoundError } from "../types/errors";
 import { getCheckoutsForCustomer } from "./checkoutService";
 import { Checkout } from "../models/checkoutModel";
 import { Book } from "../models/bookModel";

@@ -14,8 +14,9 @@ import {
   ErrorResponse,
   InvalidRequestParamsError,
   InvalidRequestBodyError,
-} from "../services/errors";
-import { formatDate } from "../util";
+  AppError,
+} from "../types/errors";
+import { formatDate } from "../util/formatters";
 
 export const getCustomerById = (
   req: Request<GetCustomerByIdParams>,
@@ -31,12 +32,8 @@ export const getCustomerById = (
     const customer = customerService.getCustomerById(customer_id);
     res.status(200).json(customer);
   } catch (err) {
-    if (err instanceof InvalidRequestParamsError) {
-      res.status(400).json({ errorMessage: err.message });
-    } else if (err instanceof NotFoundError) {
-      res.status(404).json({
-        errorMessage: err.message,
-      });
+    if (err instanceof AppError) {
+      res.status(err.statusCode).json({ errorMessage: err.message });
     } else {
       res.status(500).json({
         errorMessage: standardErrorMessage,
@@ -58,8 +55,8 @@ export const createCustomer = (
     const newCustomer = customerService.createCustomer(body);
     res.status(201).json(newCustomer);
   } catch (err) {
-    if (err instanceof InvalidRequestBodyError) {
-      res.status(400).json({ errorMessage: err.message });
+    if (err instanceof AppError) {
+      res.status(err.statusCode).json({ errorMessage: err.message });
     } else {
       res.status(500).json({
         errorMessage: standardErrorMessage,
@@ -93,10 +90,8 @@ export const getCheckedOutBooks = (
     );
     res.status(200).json(response);
   } catch (err) {
-    if (err instanceof InvalidRequestParamsError) {
-      res.status(400).json({ errorMessage: err.message });
-    } else if (err instanceof NotFoundError) {
-      res.status(404).json({ errorMessage: err.message });
+    if (err instanceof AppError) {
+      res.status(err.statusCode).json({ errorMessage: err.message });
     } else {
       res.status(500).json({ errorMessage: standardErrorMessage });
     }

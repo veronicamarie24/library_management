@@ -1,6 +1,6 @@
 import { books } from "../data/stores";
 import { Book } from "../models/bookModel";
-import { InsufficientCopiesError, NotFoundError } from "./errors";
+import { InsufficientCopiesError, NotFoundError } from "../types/errors";
 
 export const getAllBooks = () => {
   return Array.from(books.values());
