@@ -3,7 +3,7 @@ import { User } from "../models/userModel";
 import { JwtSecretMissingError } from "../types/errors";
 
 export const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
+if (typeof JWT_SECRET !== "string") {
   throw new JwtSecretMissingError();
 }
 

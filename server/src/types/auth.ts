@@ -6,7 +6,4 @@ export interface JWTPayload {
   exp?: number;
 }
 
-export enum Role {
-  ADMIN = "admin",
-  USER = "user",
-}
+export type Role = "admin" | "user";

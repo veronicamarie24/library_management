@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
-import { isLoginRequestBody, LoginRequestBody } from "../types/login";
+import {
+  isLoginRequestBody,
+  LoginRequestBody,
+  LoginResponse,
+} from "../types/login";
 import {
   AppError,
+  ErrorResponse,
   InvalidPasswordError,
   InvalidRequestBodyError,
   UserNotFoundError,
@@ -12,10 +17,11 @@ import { generateToken } from "../util/jwt";
 
 export const login = async (
   req: Request<{}, {}, LoginRequestBody>,
-  res: Response
+  res: Response<LoginResponse | ErrorResponse>
 ) => {
   try {
     const { body } = req;
+    console.log(body);
 
     if (!isLoginRequestBody(body)) {
       throw new InvalidRequestBodyError();
@@ -32,7 +38,10 @@ export const login = async (
       throw new InvalidPasswordError();
     }
 
-    res.status(200).json({ token: generateToken(fetchedUser) });
+    res.status(200).json({
+      token: generateToken(fetchedUser),
+      user: { ...fetchedUser, userId: fetchedUser.user_id },
+    });
   } catch (err) {
     if (err instanceof AppError) {
       res.status(err.statusCode).json({ errorMessage: err.message });

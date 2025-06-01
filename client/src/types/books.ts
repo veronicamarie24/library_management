@@ -3,6 +3,7 @@ export interface Book {
   title: string;
   author: string;
   copies: number;
-  available_copies: number;
-  created: Date;
+  availableCopies: number;
 }
+
+export type BookFilter = Omit<Book, "copies" | "availableCopies">;

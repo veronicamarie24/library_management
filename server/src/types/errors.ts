@@ -16,6 +16,15 @@ export abstract class AppError extends Error {
   }
 }
 
+export class InvalidRequestQueryError extends AppError {
+  statusCode = 400;
+  code = "INVALID_REQUEST_QUERY";
+
+  constructor() {
+    super("Invalid request query.");
+  }
+}
+
 export class InvalidRequestParamsError extends AppError {
   statusCode = 400;
   code = "INVALID_REQUEST_PARAMS";

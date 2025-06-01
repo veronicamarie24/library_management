@@ -1,13 +1,11 @@
 import { User } from "../models/userModel";
 import bcrypt from "bcrypt";
-import { Role } from "../types/auth";
 
-// Key: user_id
+// Key: email
 export const users = new Map<string, User>();
 
 export const initializeUserStore = async () => {
   const saltRounds = 10;
-
   const userPassword = await bcrypt.hash("user123", saltRounds);
   const adminPassword = await bcrypt.hash("admin123", saltRounds);
 
@@ -16,7 +14,7 @@ export const initializeUserStore = async () => {
     name: "Jane Doe",
     email: "user@example.com",
     password: userPassword,
-    role: Role.USER,
+    role: "user",
   };
 
   const admin: User = {
@@ -24,9 +22,9 @@ export const initializeUserStore = async () => {
     name: "John Doe",
     email: "admin@example.com",
     password: adminPassword,
-    role: Role.ADMIN,
+    role: "admin",
   };
 
-  users.set(user.user_id, user);
-  users.set(admin.user_id, admin);
+  users.set(user.email, user);
+  users.set(admin.email, admin);
 };

@@ -1,0 +1,29 @@
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-form button {
+  width: 100px;
+}
+
+.search-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-form-label {
+  width: 48px;
+}
+
+.search-form-input {
+  width: 180px;
+}
+
+.book-entry {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}

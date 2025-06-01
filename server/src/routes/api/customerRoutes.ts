@@ -3,7 +3,7 @@ import {
   createCustomer,
   getCheckedOutBooks,
   getCustomerById,
-} from "../controllers/customerController";
+} from "../../controllers/customerController";
 
 const router = Router();
 
